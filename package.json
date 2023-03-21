@@ -1,8 +1,8 @@
 {
-  "name": "miniPaint",
+  "name": "colorlab",
   "version": "4.12.0",
-  "author": "Vilius L.",
-  "description": "Online graphics editing tool lets create, edit images using HTML5 technologies.",
+  "author": "Sreerag E G",
+  "description": "Cloud graphics editing tool lets create, edit images using HTML5 technologies.",
   "keywords": [
     "canvas",
     "drawing",
@@ -17,9 +17,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/viliusle/miniPaint"
+    "url": "https://github.com/SREERAGEG/S8Project.git"
   },
-  "homepage": "https://github.com/viliusle/miniPaint",
+  "homepage": "https://github.com/SREERAGEG/S8Project.git",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.5",
