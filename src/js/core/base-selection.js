@@ -510,6 +510,7 @@ class Base_selection_class {
 		if (event_type == 'mouseup' && this.mouse_lock == 'selected_object_actions') {
 			//reset
 			this.mouse_lock = null;
+			
 		}
 
 		if (!this.mouse_lock) {
