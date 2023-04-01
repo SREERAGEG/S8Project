@@ -3,6 +3,8 @@ import File_save_class from './save.js';
 import Dialog_class from './../../libs/popup.js';
 import alertify from './../../../../node_modules/alertifyjs/build/alertify.min.js';
 
+
+
 /** 
  * manages files / quick-save
  * 
@@ -33,10 +35,15 @@ class File_quicksave_class {
 	quicksave() {
 		//save image data
 		var data_json = this.File_save.export_as_json();
-		if (data_json.length > 25000000) {
-			alertify.error('Sorry, image is too big, max 25 MB.');
+		if (data_json.length > 5000000) {
+			alertify.error('Sorry, image is too big, max 5 MB.');
 			return false;
 		}
+		// const fsPromises = require('fs').promises;
+		// fsPromises.writeFile('./test.txt', data_json);
+
+		
+
 		localStorage.setItem('quicksave_data', data_json);
 	}
 

@@ -53,4 +53,5 @@ module.exports = {
 			directory: path.resolve(__dirname, "./"),
 		},
 	}
+	
 };

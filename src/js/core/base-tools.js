@@ -8,10 +8,15 @@ import Base_layers_class from './base-layers.js';
 import Base_gui_class from './base-gui.js';
 import app from "../app";
 import Helper_class from "../libs/helpers";
+import File_quicksave_class from '../modules/file/quicksave.js';
+import File_quickload_class from '../modules/file/quickload.js';
+import alertify from './../../../node_modules/alertifyjs/build/alertify.min.js';
+
 
 /**
  * Base tools class, can be used for extending on tools like brush, provides various helping methods.
  */
+var load_value=null;
 class Base_tools_class {
 
 	constructor(save_mouse) {
@@ -29,8 +34,12 @@ class Base_tools_class {
 		this.is_touch = false;
 		this.shape_mouse_click = {x: null, y: null};
 
-		this.prepare();
 
+
+		this.autosave=new File_quicksave_class();
+		this.qkload=new File_quickload_class();
+
+		this.prepare();
 		if (this.save_mouse == true) {
 			this.events();
 		}
@@ -134,11 +143,21 @@ class Base_tools_class {
 		}
 
 		if (eventType === 'mousedown' || eventType === 'touchstart') {
+			//Load file call
+			if (load_value==null){
+				this.qkload.quickload();
+				load_value=1;
+			}
+			// alertify.error('Load testing completed.');
 			if ((event.target.id != 'canvas_minipaint' && event.target.id != 'main_wrapper') || (event.which != 1 && eventType !== 'touchstart')) {
+				
 				this.mouse_click_valid = false;
 			}
 			else {
 				this.mouse_click_valid = true;
+				// autosave file call
+				// alertify.error('Autosaving, max custom R MB.');
+				this.autosave.quicksave();
 			}
 			this.mouse_valid = true;
 		}
@@ -372,22 +391,25 @@ class Base_tools_class {
 		});
 	}
 
-	default_dragStart(event) {
+	default_dragStart(event) {		
 		if (config.TOOL.name != this.name)
 			return;
-		this.mousedown(event);
+		this.mousedown(event);			
 	}
 
 	default_dragMove(event) {
+		
 		if (config.TOOL.name != this.name)
 			return;
 		this.mousemove(event);
+		
 	}
 
-	default_dragEnd(event) {
+	default_dragEnd(event) {		
 		if (config.TOOL.name != this.name)
 			return;
 		this.mouseup(event);
+		
 	}
 
 	shape_mousedown(e) {

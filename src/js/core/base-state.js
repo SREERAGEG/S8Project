@@ -36,7 +36,7 @@ class Base_state_class {
 		this.action_history_max = 50;
 
 		this.set_events();
-	}
+	} 
 
 	set_events() {
 		document.addEventListener('keydown', (event) => {

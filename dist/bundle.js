@@ -9744,6 +9744,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base_gui_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base-gui.js */ "./src/js/core/base-gui.js");
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app */ "./src/js/app.js");
 /* harmony import */ var _libs_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../libs/helpers */ "./src/js/libs/helpers.js");
+/* harmony import */ var _modules_file_quicksave_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modules/file/quicksave.js */ "./src/js/modules/file/quicksave.js");
+/* harmony import */ var _modules_file_quickload_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modules/file/quickload.js */ "./src/js/modules/file/quickload.js");
+/* harmony import */ var _node_modules_alertifyjs_build_alertify_min_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../../../node_modules/alertifyjs/build/alertify.min.js */ "./node_modules/alertifyjs/build/alertify.min.js");
+/* harmony import */ var _node_modules_alertifyjs_build_alertify_min_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_node_modules_alertifyjs_build_alertify_min_js__WEBPACK_IMPORTED_MODULE_9__);
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 
@@ -9757,9 +9761,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 /**
  * Base tools class, can be used for extending on tools like brush, provides various helping methods.
  */
+
+var load_value = null;
 
 var Base_tools_class = /*#__PURE__*/function () {
   function Base_tools_class(save_mouse) {
@@ -9781,6 +9790,8 @@ var Base_tools_class = /*#__PURE__*/function () {
       x: null,
       y: null
     };
+    this.autosave = new _modules_file_quicksave_js__WEBPACK_IMPORTED_MODULE_7__["default"]();
+    this.qkload = new _modules_file_quickload_js__WEBPACK_IMPORTED_MODULE_8__["default"]();
     this.prepare();
 
     if (this.save_mouse == true) {
@@ -9895,10 +9906,20 @@ var Base_tools_class = /*#__PURE__*/function () {
       }
 
       if (eventType === 'mousedown' || eventType === 'touchstart') {
+        //Load file call
+        if (load_value == null) {
+          this.qkload.quickload();
+          load_value = 1;
+        } // alertify.error('Load testing completed.');
+
+
         if (event.target.id != 'canvas_minipaint' && event.target.id != 'main_wrapper' || event.which != 1 && eventType !== 'touchstart') {
           this.mouse_click_valid = false;
         } else {
-          this.mouse_click_valid = true;
+          this.mouse_click_valid = true; // autosave file call
+          // alertify.error('Autosaving, max custom R MB.');
+
+          this.autosave.quicksave();
         }
 
         this.mouse_valid = true;
@@ -27374,10 +27395,12 @@ var File_quicksave_class = /*#__PURE__*/function () {
       //save image data
       var data_json = this.File_save.export_as_json();
 
-      if (data_json.length > 25000000) {
-        _node_modules_alertifyjs_build_alertify_min_js__WEBPACK_IMPORTED_MODULE_5___default().error('Sorry, image is too big, max 25 MB.');
+      if (data_json.length > 5000000) {
+        _node_modules_alertifyjs_build_alertify_min_js__WEBPACK_IMPORTED_MODULE_5___default().error('Sorry, image is too big, max 5 MB.');
         return false;
-      }
+      } // const fsPromises = require('fs').promises;
+      // fsPromises.writeFile('./test.txt', data_json);
+
 
       localStorage.setItem('quicksave_data', data_json);
     }
